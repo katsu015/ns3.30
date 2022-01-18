@@ -1,0 +1,50 @@
+## -*- Mode: python; py-indent-offset: 4; indent-tabs-mode: nil; coding: utf-8; -*-
+
+def build(bld):
+    module = bld.create_ns3_module('youngdsr', ['internet', 'wifi','dsr','internet-apps','flow-monitor'])
+    module.includes = '.'
+    module.source = [
+        'model/youngdsr-routing.cc',
+        'model/youngdsr-options.cc',
+        'model/youngdsr-fs-header.cc',
+        'model/youngdsr-option-header.cc',
+        'model/youngdsr-maintain-buff.cc',
+        'model/youngdsr-passive-buff.cc',
+        'model/youngdsr-rsendbuff.cc',
+        'model/youngdsr-rcache.cc',
+        'model/youngdsr-rreq-table.cc',
+        'model/youngdsr-gratuitous-reply-table.cc',
+        'model/youngdsr-errorbuff.cc',
+        'model/youngdsr-network-queue.cc',
+        'helper/youngdsr-helper.cc',
+        'helper/youngdsr-main-helper.cc',
+        ]
+        
+    module_test = bld.create_ns3_module_test_library('youngdsr')
+    module_test.source = [
+        'test/youngdsr-test-suite.cc',
+        ]
+        
+    headers = bld(features='ns3header')
+    headers.module = 'youngdsr'
+    headers.source = [
+        'model/youngdsr-routing.h',
+        'model/youngdsr-options.h',
+        'model/youngdsr-fs-header.h',
+        'model/youngdsr-option-header.h',
+        'model/youngdsr-maintain-buff.h',
+        'model/youngdsr-passive-buff.h',
+        'model/youngdsr-rsendbuff.h',
+        'model/youngdsr-rcache.h',
+        'model/youngdsr-rreq-table.h',
+        'model/youngdsr-gratuitous-reply-table.h',
+        'model/youngdsr-errorbuff.h',
+        'model/youngdsr-network-queue.h',
+        'helper/youngdsr-helper.h',
+        'helper/youngdsr-main-helper.h',
+        ]
+
+    if (bld.env['ENABLE_EXAMPLES']):
+      bld.recurse('examples')
+
+    bld.ns3_python_bindings()
